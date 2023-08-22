@@ -1,0 +1,28 @@
+<apex:page controller="CustomerController">
+    <apex:form>
+        <apex:pageBlock>
+            <apex:pageBlockSection>
+                <apex:inputText value="{!firstName}" label="First Name"/>
+                <apex:inputText value="{!lastName}" label="Last Name"/>
+                <apex:inputText value="{!phoneNumber}" label="Phone Number"/>
+                <apex:inputText value="{!email}" label="Email"/>
+                <apex:inputText value="{!website}" label="Website"/>
+                <apex:inputText value="{!language}" label="Language"/>
+                <apex:commandButton action="{!createCustomer}" value="Create Account"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    
+    
+    <apex:pageBlock title="Created Customer Information">
+        <apex:pageBlockTable value="{!customers}" var="customer">
+            <apex:column value="{!customer.AccountName}"/>
+            <apex:column value="{!customer.AccountPhone}"/>
+            <apex:column value="{!customer.AccountWebsite}"/>
+            <apex:column value="{!customer.AccountLanguage}"/>
+            <apex:column value="{!customer.ContactName}"/>
+            <apex:column value="{!customer.ContactPhone}"/>
+            <apex:column value="{!customer.ContactEmail}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

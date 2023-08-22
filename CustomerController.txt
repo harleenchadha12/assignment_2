@@ -1,0 +1,69 @@
+public class CustomerController {
+    public String firstName { get; set; }
+    public String lastName { get; set; }
+    public String phoneNumber { get; set; }
+    public String email { get; set; }
+    public String website { get; set; }
+    public String language { get; set; }
+    public List<CustomerInfo> customers { get; set; }
+    
+    public CustomerController() {
+        customers = new List<CustomerInfo>();
+    }
+    
+    public PageReference createCustomer() {
+        // Validation for phone number and email
+        if (phoneNumber.length() != 10 || !email.contains('@')) {
+            return null;
+        }
+        
+        Account newAccount = new Account(
+            Name = firstName + ' ' + lastName,
+            Phone = phoneNumber,
+            Website = website,
+            Language__c = language
+        );
+        insert newAccount;
+        
+        Contact newContact = new Contact(
+            FirstName = firstName,
+            LastName = lastName,
+            Phone = phoneNumber,
+            Email = email,
+            AccountId = newAccount.Id
+        );
+        insert newContact;
+        
+        customers.add(new CustomerInfo(newAccount, newContact)); // Add to the list
+        
+        // Clear input fields
+        firstName = '';
+        lastName = '';
+        phoneNumber = '';
+        email = '';
+        website = '';
+        language = '';
+        
+        return null;
+    }
+    
+    public class CustomerInfo {
+        public String AccountName { get; set; }
+        public String AccountPhone { get; set; }
+        public String AccountWebsite { get; set; }
+        public String AccountLanguage { get; set; }
+        public String ContactName { get; set; }
+        public String ContactPhone { get; set; }
+        public String ContactEmail { get; set; }
+        
+        public CustomerInfo(Account account, Contact contact) {
+            AccountName = account.Name;
+            AccountPhone = account.Phone;
+            AccountWebsite = account.Website;
+            AccountLanguage = account.Language__c;
+            ContactName = contact.FirstName;
+            ContactPhone = contact.Phone;
+            ContactEmail = contact.Email;
+        }
+    }
+}
